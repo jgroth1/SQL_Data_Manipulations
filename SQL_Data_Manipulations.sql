@@ -52,4 +52,34 @@ from actor
 group by last_name;
 
 -- 4b List last names of actors and the number of actors who have that last name, but only for names that are shared by at least two actors
+select multi_last_name.*
+from (
+			select last_name, count(Last_name) as count
+			from actor
+            group by last_name
+		) multi_last_name
+where multi_last_name.count  > 1;
 
+--  Oh, no! The actor `HARPO WILLIAMS` was accidentally entered in the `actor` table as `GROUCHO WILLIAMS`, the name of Harpo's second cousin's husband's yoga teacher. Write a query to fix the record.
+select first_name, last_name
+from actor
+where first_name = "GROUCHO" and Last_name = "WILLIAMS";
+
+update actor
+set first_name = "HARPO"
+where first_name = "GROUCHO" and Last_name = "WILLIAMS";
+
+
+select first_name, last_name
+from actor
+where first_name = "GROUCHO" and Last_name = "WILLIAMS";
+
+
+select first_name, last_name
+from actor
+where first_name = "HARPO" and Last_name = "WILLIAMS";
+
+-- 5a. You cannot locate the schema of the `address` table. Which query would you use to re-create it?
+show create table address;
+
+-- 6a. Use `JOIN` to display the first and last names, as well as the address, of each staff member. Use the tables `staff` and `address`:
