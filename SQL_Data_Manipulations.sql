@@ -83,3 +83,14 @@ where first_name = "HARPO" and Last_name = "WILLIAMS";
 show create table address;
 
 -- 6a. Use `JOIN` to display the first and last names, as well as the address, of each staff member. Use the tables `staff` and `address`:
+select staff.first_name, staff.last_name, address.address
+from staff
+join address on staff.address_id = address.address_id
+
+-- 6b. Use `JOIN` to display the total amount rung up by each staff member in August of 2005. Use tables `staff` and `payment`.
+select staff.first_name, staff.last_name, sum(payment.amount) as total_rung_up
+from staff
+join payment on payment.staff_id = staff.staff_id
+group by payment.staff_id
+
+-- 6c. List each film and the number of actors who are listed for that film. Use tables `film_actor` and `film`. Use inner join.
