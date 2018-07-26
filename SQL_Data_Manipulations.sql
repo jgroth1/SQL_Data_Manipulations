@@ -140,3 +140,29 @@ join category on category.category_id = film_category.category_id
 where category.name = "Family";
 
 -- 7e. Display the most frequently rented movies in descending order.
+select sub.title
+from(
+	select film.title, sum(film.film_id) total_rental
+    from film
+    join inventory on inventory.film_id = film.film_id
+    join rental on rental.inventory_id = inventory.inventory_id
+    group by film.film_id
+    order by total_rental desc
+    ) sub;
+    
+-- 7f. Write a query to display how much business, in dollars, each store brought in.
+select staff.store_id, sum(payment.amount) total_buisness
+from payment
+join staff on staff.staff_id = payment.staff_id
+group by store_id;
+
+-- 7g. Write a query to display for each store its store ID, city, and country.
+select store.store_id, city.city, country.country
+from store
+join address on store.address_id = address.address_id
+join city on address.city_id = city.city_id
+join country on country.country_id = city.country_id
+
+-- 7h. List the top five genres in gross revenue in descending order.
+
+    
