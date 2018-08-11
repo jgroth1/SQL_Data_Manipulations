@@ -161,8 +161,39 @@ select store.store_id, city.city, country.country
 from store
 join address on store.address_id = address.address_id
 join city on address.city_id = city.city_id
-join country on country.country_id = city.country_id
+join country on country.country_id = city.country_id;
 
 -- 7h. List the top five genres in gross revenue in descending order.
+select sub.name
+from(
+		select category.name, sum(payment.amount) total
+        from category
+        join film_category on category.category_id = film_category.category_id
+        join inventory on film_category.film_id = inventory.film_id
+        join rental on inventory.inventory_id = rental.inventory_id
+        join payment on rental.rental_id = payment.rental_id
+        group by category.name
+        order by total desc
+        limit 5
+        ) sub;
 
-    
+-- 8a. Create view of 7h
+create view Top_Five_Genres as
+select sub.name
+from(
+		select category.name, sum(payment.amount) total
+        from category
+        join film_category on category.category_id = film_category.category_id
+        join inventory on film_category.film_id = inventory.film_id
+        join rental on inventory.inventory_id = rental.inventory_id
+        join payment on rental.rental_id = payment.rental_id
+        group by category.name
+        order by total desc
+        limit 5
+        ) sub;    
+        
+-- 8b. Display view
+select * from Top_Five_Genres; 
+
+-- 8c.  Delete view
+drop view Top_Five_Genres;       
